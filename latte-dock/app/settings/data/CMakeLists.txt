@@ -1,0 +1,10 @@
+set(lattedock-app_SRCS
+    ${lattedock-app_SRCS}
+    ${CMAKE_CURRENT_SOURCE_DIR}/activitydata.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/layoutdata.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/layouticondata.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/layoutstable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/preferencesdata.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/uniqueidinfo.cpp
+    PARENT_SCOPE
+)

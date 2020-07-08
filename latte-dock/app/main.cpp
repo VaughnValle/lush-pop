@@ -1,0 +1,405 @@
+/*
+*  Copyright 2016  Smith AR <audoban@openmailbox.org>
+*                  Michail Vourlakos <mvourlakos@gmail.com>
+*
+*  This file is part of Latte-Dock
+*
+*  Latte-Dock is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU General Public License as
+*  published by the Free Software Foundation; either version 2 of
+*  the License, or (at your option) any later version.
+*
+*  Latte-Dock is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+// local
+#include "config-latte.h"
+#include "apptypes.h"
+#include "lattecorona.h"
+#include "layouts/importer.h"
+
+// C++
+#include <memory>
+#include <csignal>
+
+// Qt
+#include <QApplication>
+#include <QDebug>
+#include <QQuickWindow>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
+#include <QDir>
+#include <QLockFile>
+#include <QSharedMemory>
+
+// KDE
+#include <KCrash>
+#include <KLocalizedString>
+#include <KAboutData>
+#include <KDBusService>
+#include <KQuickAddons/QtQuickSettings>
+
+//! COLORS
+#define CNORMAL  "\e[0m"
+#define CIGREEN  "\e[1;32m"
+#define CGREEN   "\e[0;32m"
+#define CICYAN   "\e[1;36m"
+#define CCYAN    "\e[0;36m"
+#define CIRED    "\e[1;31m"
+#define CRED     "\e[0;31m"
+
+inline void configureAboutData();
+inline void detectPlatform(int argc, char **argv);
+inline void filterDebugMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg);
+
+QString filterDebugMessageText;
+
+int main(int argc, char **argv)
+{
+    //Plasma scales itself to font DPI
+    //on X, where we don't have compositor scaling, this generally works fine.
+    //also there are bugs on older Qt, especially when it comes to fractional scaling
+    //there's advantages to disabling, and (other than small context menu icons) few advantages in enabling
+
+    //On wayland, it's different. Everything is simpler as all co-ordinates are in the same co-ordinate system
+    //we don't have fractional scaling on the client so don't hit most the remaining bugs and
+    //even if we don't use Qt scaling the compositor will try to scale us anyway so we have no choice
+    if (!qEnvironmentVariableIsSet("PLASMA_USE_QT_SCALING")) {
+        qunsetenv("QT_DEVICE_PIXEL_RATIO");
+        QCoreApplication::setAttribute(Qt::AA_DisableHighDpiScaling);
+    } else {
+        QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps);
+    }
+
+    QQuickWindow::setDefaultAlphaBuffer(true);
+
+    const bool qpaVariable = qEnvironmentVariableIsSet("QT_QPA_PLATFORM");
+    detectPlatform(argc, argv);
+    QApplication app(argc, argv);
+
+    if (!qpaVariable) {
+        // don't leak the env variable to processes we start
+        qunsetenv("QT_QPA_PLATFORM");
+    }
+
+    KQuickAddons::QtQuickSettings::init();
+
+    KLocalizedString::setApplicationDomain("latte-dock");
+    app.setWindowIcon(QIcon::fromTheme(QStringLiteral("latte-dock")));
+    //protect from closing app when changing to "alternative session" and back
+    app.setQuitOnLastWindowClosed(false);
+
+    configureAboutData();
+
+    QCommandLineParser parser;
+    parser.addHelpOption();
+    parser.addOptions({
+                          {{"r", "replace"}, i18nc("command line", "Replace the current Latte instance.")}
+                          , {{"d", "debug"}, i18nc("command line", "Show the debugging messages on stdout.")}
+                          , {{"cc", "clear-cache"}, i18nc("command line", "Clear qml cache. It can be useful after system upgrades.")}
+                          , {"default-layout", i18nc("command line", "Import and load default layout on startup.")}
+                          , {"available-layouts", i18nc("command line", "Print available layouts")}
+                          , {"layout", i18nc("command line", "Load specific layout on startup."), i18nc("command line: load", "layout_name")}
+                          , {"import-layout", i18nc("command line", "Import and load a layout."), i18nc("command line: import", "file_name")}
+                          , {"import-full", i18nc("command line", "Import full configuration."), i18nc("command line: import", "file_name")}
+                          , {"single", i18nc("command line", "Single layout memory mode. Only one layout is active at any case.")}
+                          , {"multiple", i18nc("command line", "Multiple layouts memory mode. Multiple layouts can be active at any time based on Activities running.")}
+                      });
+
+    //! START: Hidden options for Developer and Debugging usage
+    QCommandLineOption graphicsOption(QStringList() << QStringLiteral("graphics"));
+    graphicsOption.setDescription(QStringLiteral("Draw boxes around of the applets."));
+    graphicsOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(graphicsOption);
+
+    QCommandLineOption withWindowOption(QStringList() << QStringLiteral("with-window"));
+    withWindowOption.setDescription(QStringLiteral("Open a window with much debug information"));
+    withWindowOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(withWindowOption);
+
+    QCommandLineOption maskOption(QStringList() << QStringLiteral("mask"));
+    maskOption.setDescription(QStringLiteral("Show messages of debugging for the mask (Only useful to devs)."));
+    maskOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(maskOption);
+
+    QCommandLineOption timersOption(QStringList() << QStringLiteral("timers"));
+    timersOption.setDescription(QStringLiteral("Show messages for debugging the timers (Only useful to devs)."));
+    timersOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(timersOption);
+
+    QCommandLineOption spacersOption(QStringList() << QStringLiteral("spacers"));
+    spacersOption.setDescription(QStringLiteral("Show visual indicators for debugging spacers (Only useful to devs)."));
+    spacersOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(spacersOption);
+
+    QCommandLineOption overloadedIconsOption(QStringList() << QStringLiteral("overloaded-icons"));
+    overloadedIconsOption.setDescription(QStringLiteral("Show visual indicators for debugging overloaded applets icons (Only useful to devs)."));
+    overloadedIconsOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(overloadedIconsOption);
+
+    QCommandLineOption edgesOption(QStringList() << QStringLiteral("kwinedges"));
+    edgesOption.setDescription(QStringLiteral("Show visual window indicators for hidden screen edge windows."));
+    edgesOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(edgesOption);
+
+    QCommandLineOption localGeometryOption(QStringList() << QStringLiteral("localgeometry"));
+    localGeometryOption.setDescription(QStringLiteral("Show visual window indicators for calculated local geometry."));
+    localGeometryOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(localGeometryOption);
+
+    QCommandLineOption layouterOption(QStringList() << QStringLiteral("layouter"));
+    layouterOption.setDescription(QStringLiteral("Show visual debug tags for items sizes."));
+    layouterOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    parser.addOption(layouterOption);
+
+    QCommandLineOption filterDebugTextOption(QStringList() << QStringLiteral("debug-text"));
+    filterDebugTextOption.setDescription(QStringLiteral("Show only debug messages that contain specific text."));
+    filterDebugTextOption.setFlags(QCommandLineOption::HiddenFromHelp);
+    filterDebugTextOption.setValueName(i18nc("command line: debug-text", "filter_debug_text"));
+    parser.addOption(filterDebugTextOption);
+    //! END: Hidden options
+
+    parser.process(app);
+
+    //! print available-layouts
+    if (parser.isSet(QStringLiteral("available-layouts"))) {
+        QStringList layouts = Latte::Layouts::Importer::availableLayouts();
+
+        if (layouts.count() > 0) {
+            qInfo() << i18n("Available layouts that can be used to start Latte:");
+
+            for (const auto &layout : layouts) {
+                qInfo() << "     " << layout;
+            }
+        } else {
+            qInfo() << i18n("There are no available layouts, during startup Default will be used.");
+        }
+
+        qGuiApp->exit();
+        return 0;
+    }
+
+    bool defaultLayoutOnStartup = false;
+    int memoryUsage = -1;
+    QString layoutNameOnStartup = "";
+
+    //! --default-layout option
+    if (parser.isSet(QStringLiteral("default-layout"))) {
+        defaultLayoutOnStartup = true;
+    } else if (parser.isSet(QStringLiteral("layout"))) {
+        layoutNameOnStartup = parser.value(QStringLiteral("layout"));
+
+        if (!Latte::Layouts::Importer::layoutExists(layoutNameOnStartup)) {
+            qInfo() << i18nc("layout missing", "This layout doesn't exist in the system.");
+            qGuiApp->exit();
+            return 0;
+        }
+    }
+
+    //! --replace option
+    QString username = qgetenv("USER");
+
+    if (username.isEmpty())
+        username = qgetenv("USERNAME");
+
+    QLockFile lockFile {QDir::tempPath() + "/latte-dock." + username + ".lock"};
+
+    int timeout {100};
+
+    if (parser.isSet(QStringLiteral("replace")) || parser.isSet(QStringLiteral("import-full"))) {
+        qint64 pid{ -1};
+
+        if (lockFile.getLockInfo(&pid, nullptr, nullptr)) {
+            kill(static_cast<pid_t>(pid), SIGINT);
+            timeout = -1;
+        }
+    }
+
+    if (!lockFile.tryLock(timeout)) {
+        qInfo() << i18n("An instance is already running!, use --replace to restart Latte");
+        qGuiApp->exit();
+        return 0;
+    }
+
+    //! clear-cache option
+    if (parser.isSet(QStringLiteral("clear-cache"))) {
+        QDir cacheDir(QDir::homePath() + "/.cache/lattedock/qmlcache");
+
+        if (cacheDir.exists()) {
+            cacheDir.removeRecursively();
+            qDebug() << "Cache directory found and cleared...";
+        }
+    }
+
+    //! import-full option
+    if (parser.isSet(QStringLiteral("import-full"))) {
+        bool imported = Latte::Layouts::Importer::importHelper(parser.value(QStringLiteral("import-full")));
+
+        if (!imported) {
+            qInfo() << i18n("The configuration cannot be imported");
+            qGuiApp->exit();
+            return 0;
+        }
+    }
+
+    //! import-layout option
+    if (parser.isSet(QStringLiteral("import-layout"))) {
+        QString importedLayout = Latte::Layouts::Importer::importLayoutHelper(parser.value(QStringLiteral("import-layout")));
+
+        if (importedLayout.isEmpty()) {
+            qInfo() << i18n("The layout cannot be imported");
+            qGuiApp->exit();
+            return 0;
+        } else {
+            layoutNameOnStartup = importedLayout;
+        }
+    }
+
+    //! memory usage option
+    if (parser.isSet(QStringLiteral("multiple"))) {
+        memoryUsage = (int)(Latte::MemoryUsage::MultipleLayouts);
+    } else if (parser.isSet(QStringLiteral("single"))) {
+        memoryUsage = (int)(Latte::MemoryUsage::SingleLayout);
+    }
+
+    //! text filter for debug messages
+    if (parser.isSet(QStringLiteral("debug-text"))) {
+        filterDebugMessageText = parser.value(QStringLiteral("debug-text"));
+    }
+
+    //! debug/mask options
+    if (parser.isSet(QStringLiteral("debug")) || parser.isSet(QStringLiteral("mask")) || parser.isSet(QStringLiteral("debug-text"))) {
+        qInstallMessageHandler(filterDebugMessageOutput);
+    } else {
+        const auto noMessageOutput = [](QtMsgType, const QMessageLogContext &, const QString &) {};
+        qInstallMessageHandler(noMessageOutput);
+    }
+
+
+    auto signal_handler = [](int) {
+        qGuiApp->exit();
+    };
+
+    std::signal(SIGKILL, signal_handler);
+    std::signal(SIGINT, signal_handler);
+
+    KCrash::setDrKonqiEnabled(true);
+    KCrash::setFlags(KCrash::AutoRestart | KCrash::AlwaysDirectly);
+
+    Latte::Corona corona(defaultLayoutOnStartup, layoutNameOnStartup, memoryUsage);
+    KDBusService service(KDBusService::Unique);
+
+    return app.exec();
+}
+
+inline void filterDebugMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    if (msg.endsWith("QML Binding: Not restoring previous value because restoreMode has not been set.This behavior is deprecated.In Qt < 6.0 the default is Binding.RestoreBinding.In Qt >= 6.0 the default is Binding.RestoreBindingOrValue.")
+        || msg.endsWith("QML Binding: Not restoring previous value because restoreMode has not been set.\nThis behavior is deprecated.\nYou have to import QtQml 2.15 after any QtQuick imports and set\nthe restoreMode of the binding to fix this warning.\nIn Qt < 6.0 the default is Binding.RestoreBinding.\nIn Qt >= 6.0 the default is Binding.RestoreBindingOrValue.\n")
+        || msg.endsWith("QML Binding: Not restoring previous value because restoreMode has not been set.\nThis behavior is deprecated.\nYou have to import QtQml 2.15 after any QtQuick imports and set\nthe restoreMode of the binding to fix this warning.\nIn Qt < 6.0 the default is Binding.RestoreBinding.\nIn Qt >= 6.0 the default is Binding.RestoreBindingOrValue.")
+        || msg.endsWith("QML Connections: Implicitly defined onFoo properties in Connections are deprecated. Use this syntax instead: function onFoo(<arguments>) { ... }")) {
+        //! block warnings because they will be needed only after qt6.0 support. Currently Binding.restoreMode can not be supported because
+        //! qt5.9 is the minimum supported version.
+        return;
+    }
+
+    if (!filterDebugMessageText.isEmpty() && !msg.contains(filterDebugMessageText)) {
+        return;
+    }
+
+    const char *function = context.function ? context.function : "";
+
+    QString typeStr;
+    switch (type) {
+    case QtDebugMsg:
+        typeStr = "Debug";
+        break;
+    case QtInfoMsg:
+        typeStr = "Info";
+        break;
+    case QtWarningMsg:
+        typeStr = "Warning" ;
+        break;
+    case QtCriticalMsg:
+        typeStr = "Critical";
+        break;
+    case QtFatalMsg:
+        typeStr = "Fatal";
+        break;
+    };
+
+    const char *TypeColor;
+
+    if (type == QtInfoMsg || type == QtWarningMsg) {
+        TypeColor = CGREEN;
+    } else if (type == QtCriticalMsg || type == QtFatalMsg) {
+        TypeColor = CRED;
+    } else {
+        TypeColor = CIGREEN;
+
+    }
+
+    qDebug().nospace() << TypeColor << "[" << typeStr.toStdString().c_str() << " : " << CGREEN << QTime::currentTime().toString("h:mm:ss.zz").toStdString().c_str() << TypeColor << "]" << CNORMAL
+                      #ifndef QT_NO_DEBUG
+                       << CIRED << " [" << CCYAN << function << CIRED << ":" << CCYAN << context.line << CIRED << "]"
+                      #endif
+                       << CICYAN << " - " << CNORMAL << msg;
+}
+
+inline void configureAboutData()
+{
+    KAboutData about(QStringLiteral("lattedock")
+                     , QStringLiteral("Latte Dock")
+                     , QStringLiteral(VERSION)
+                     , i18n("Latte is a dock based on plasma frameworks that provides an elegant and "
+                            "intuitive experience for your tasks and plasmoids. It animates its contents "
+                            "by using parabolic zoom effect and tries to be there only when it is needed."
+                            "\n\n\"Art in Coffee\"")
+                     , KAboutLicense::GPL_V2
+                     , QStringLiteral("\251 2016-2017 Michail Vourlakos, Smith AR"));
+
+    about.setHomepage(WEBSITE);
+    about.setProgramLogo(QIcon::fromTheme(QStringLiteral("latte-dock")));
+    about.setDesktopFileName(QStringLiteral("latte-dock"));
+
+    // Authors
+    about.addAuthor(QStringLiteral("Michail Vourlakos"), QString(), QStringLiteral("mvourlakos@gmail.com"));
+    about.addAuthor(QStringLiteral("Smith AR"), QString(), QStringLiteral("audoban@openmailbox.org"));
+
+    KAboutData::setApplicationData(about);
+}
+
+//! used the version provided by PW:KWorkspace
+inline void detectPlatform(int argc, char **argv)
+{
+    if (qEnvironmentVariableIsSet("QT_QPA_PLATFORM")) {
+        return;
+    }
+
+    for (int i = 0; i < argc; i++) {
+        if (qstrcmp(argv[i], "-platform") == 0 ||
+                qstrcmp(argv[i], "--platform") == 0 ||
+                QByteArray(argv[i]).startsWith("-platform=") ||
+                QByteArray(argv[i]).startsWith("--platform=")) {
+            return;
+        }
+    }
+
+    const QByteArray sessionType = qgetenv("XDG_SESSION_TYPE");
+
+    if (sessionType.isEmpty()) {
+        return;
+    }
+
+    if (qstrcmp(sessionType, "wayland") == 0) {
+        qputenv("QT_QPA_PLATFORM", "wayland");
+    } else if (qstrcmp(sessionType, "x11") == 0) {
+        qputenv("QT_QPA_PLATFORM", "xcb");
+    }
+}
