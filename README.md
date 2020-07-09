@@ -1,4 +1,4 @@
-# Kanji Pop!
-A Japanese theme for Pop! OS
+# Lush Pop!
+A clean and green theme for Pop! OS
 
 ## Dependencies
