@@ -66,7 +66,7 @@ Image {
         AnimatedImage { 
             id: face
             //source: "images/plasma_d.gif"
-            source: "/home/vaughnvalle/Downloads/3q60.gif"
+            source: "images/3q60.gif"
             paused: false 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
@@ -112,7 +112,7 @@ Image {
             }
             Image {
                 //source: "images/kde.svgz"
-                source:"/home/vaughnvalle/Downloads/love.png"
+                source:"images/love.png"
                 sourceSize.height: units.gridUnit * 2
                 sourceSize.width: units.gridUnit * 2
             }
