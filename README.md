@@ -57,18 +57,18 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 		 sudo shutdown -h now
 9. Select KDE Plasma in the DE menu and login
 10. Apply the following themes:
-- __Global Theme:__ Sweet-Mars
-- __Plasma Style:__ ROUNDED
-- __Application Style:__ Breeze (_preference_)
-- __Window Decorations:__ Sweet Mars-transparent (_preference_)
+    - __Global Theme:__ Sweet-Mars
+    - __Plasma Style:__ ROUNDED
+    - __Application Style:__ Breeze (_preference_)
+    - __Window Decorations:__ Sweet Mars-transparent (_preference_)
 11. Clone this GitHub repo:
 
 		 git clone https://github.com/VaughnValle/lush-pop.git
 12. Apply colorscheme
-- Go to __Colors__ in System Settings
-- Click on the __Install from file__ button
-- Navigate to __lush-pop__ and select __Nature.colors__
-- Click __Apply__ to apply colorscheme
+    - Go to __Colors__ in System Settings
+    - Click on the __Install from file__ button
+    - Navigate to __lush-pop__ and select __Nature.colors__
+    - Click __Apply__ to apply colorscheme
 13. Install latte-dock extra dependencies (more info [here](https://github.com/KDE/latte-dock/blob/master/INSTALLATION.md_)):
 
 		 sudo apt install cmake extra-cmake-modules qtdeclarative5-dev libqt5x11extras5-dev libkf5iconthemes-dev libkf5plasma-dev libkf5windowsystem-dev libkf5declarative-dev libkf5xmlgui-dev libkf5activities-dev build-essential libxcb-util-dev libkf5wayland-dev git gettext libkf5archive-dev libkf5notifications-dev libxcb-util0-dev libsm-dev libkf5crash-dev libkf5newstuff-dev
