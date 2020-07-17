@@ -31,4 +31,4 @@ Depends on:
 ## Installation Steps (Ubuntu/Pop! OS 20.04)
 1. Update repositories with 
 
-	sudo apt update
+		 sudo apt update
