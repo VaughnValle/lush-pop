@@ -78,8 +78,14 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 15. Launch latte-dock either in __Krunner__ (alt+space) or in the terminal with:
 
 		 latte-dock
-16. Switch to __Extended__ layout by right clicking the dock, clicking __Configure Latte__, and switching the layout in the __Layouts__ section
-17. Adjust the settings to your liking by right clicking the dock, clicking __Edit Panel__, and toggle the __Advanced__ option
+16. Switch to __Extended__ layout
+    - Right click the dock, 
+    - Click __Configure Latte__
+    - Switching the layout in the __Layouts__ section
+17. Adjust the latte-dock settings to your liking
+    - Right click the dock
+    - Click __Edit Panel__
+    - Toggle the __Advanced__ option
 18. Remove/Add your preferred widgets, widgets in the video includes:
     - __Global Menu__
     - __Application Title__
@@ -87,8 +93,9 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 19. Configure __System Tray__ and set all menus to __Always hidden__
 20. Arrange widgets to your liking
     - You can enable colors in your widget by clicking the __teardrop icon__ 
-21. Configure the __Better Inlince Clock__ widget
-22. Adjust the padding of the dock in the __Effects__ section of the latte-dock settings
+21. Configure the __Better Inline Clock__ widget
+22. Adjust the padding of the dock 
+    - In the __Effects__ section of the latte-dock settings, adjust the _Padding_ slider
 23. Configure __Application Launcher__ icon
     - Sample icon is in ```$DIR/lush-pop/``` as __icon.png__
 24. Configure Kvantum Manager and set the theme
@@ -100,42 +107,52 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 27. Install MNML Conky:
 
 		 cd $DIR/lush-pop/mnml_conky && ./install
-28. Leave answer blank for prompts
-29. Copy conky configuration file to your home directory:
+    - __NOTE__: Leave your answers blank when prompted during installation by hitting __Enter__
+28. Copy conky configuration file to your home directory:
 
 		 cp .conkyrc ~/.conkyrc
-30. Edit the conky configuration file:
+29. Edit the conky configuration file:
 
 		 nano ~/.conkyrc
-31.     - Place your __API key__ in the ```template6``` variable
+30.     - Place your __API key__ in the ```template6``` variable
         - Place your __City ID__ in the ```template7``` variable
-32. Run conky in the terminal:
+31. Run conky in the terminal:
 
 		 conky
-33. Install Kwin Scripts:
+32. Install Kwin Scripts:
     - __Krohnkite__ for window-tiling
     - __Latte Window Colors__ for better dynamic latte-dock colors
-34. Remove top titlebar of terminal windows in __Window Rules__ setting
-35. Enable Configuration settings for Krohnkite:
+33. Remove top titlebar of terminal windows
+    - Open the __Window Rules__ setting
+    - Change __Window Class__ type to __Exact Match__ and type in your terminal (e.g. Konsole)
+    - Tick the __No titlebar and Frame__ setting in the _Appearance section_, select __Force__ and __Yes__
+34. Enable Configuration settings for Krohnkite:
 
 		 mkdir -p ~/.local/share/kservices5/
 		 ln -s ~/.local/share/kwin/scripts/krohnkite/metadata.desktop ~/.local/share/kservices5/krohnkite.desktop
-36. Configure Krohnkite in __Kwin Scripts__ and __Global Shortcuts__ _Kwin_ section
-37. Change your terminal theme to your liking
+35. Configure Krohnkite in 
+    - __Kwin Scripts__ for visuals such as window gaps, tiling modes, etc.
+    - __Global Shortcuts__ _Kwin_ section for Krohnkite shortcuts
+36. Change your terminal theme to your liking
     - Theme used in the video is __Sweet Mars__, included in the __Sweet Konsole Theme__
-38. Install the custom splash screen with 
+37. Install the custom splash screen with 
 
 		 cd $DIR/lush-pop/ && cp -r Lush ~/.local/share/plasma/look-and-feel/
-39. Preview and apply the installed custom splash screen in __Splash Screen__ settings
-40. Install lightdm-webkit2-greeter by installing the __lightdm-webkit2-greeter_2.2.5-1%2B15.31_amd64.deb__ file
-41. Install the __Glorious__ Webkit2 theme:
+38. Preview and apply the installed custom splash screen
+    - Go to __Splash Screen__ settings
+    - Find the __Lush__ splash screen; hit the play button to preview
+    - Select __Lush__ and hit apply
+39. Install lightdm-webkit2-greeter
+    - Open Dolphin in $DIR/lush-pop
+    - Install the __lightdm-webkit2-greeter_2.2.5-1%2B15.31_amd64.deb__ file; you can use __Eddy__
+40. Install the __Glorious__ Webkit2 theme:
 
 		 sudo cp -r $DIR/lush-pop/lightdm-webkit2-theme-glorious/ /usr/share/lightdm-webkit/themes/
-42. Edit the lightdm configuration file:
+41. Edit the lightdm configuration file:
 
 		 sudo nano /etc/lightdm/lightdm.conf.d/lightdm.conf
-43. Change the value of __greeter-session__ to ```lightdm-webkit2-greeter```
-44. Edit the lightdm webkit2 configuration file:
+    - Change the value of __greeter-session__ to ```lightdm-webkit2-greeter```
+42. Edit the lightdm webkit2 configuration file:
 		 sudo nano /etc/lightdm/lightdm-webkit2-greeter.conf
-45. Change the value of __webkit_theme__ to ```lightdm-webkit2-theme-glorious```
-46. Reboot your system and enjoy!
+    - Change the value of __webkit_theme__ to ```lightdm-webkit2-theme-glorious```
+43. Reboot your system and enjoy!
