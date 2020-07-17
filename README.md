@@ -53,3 +53,9 @@ Depends on:
 8. Shutdown system:
 
 		 sudo shutdown -h now
+9. Select KDE Plasma in the DE menu and login
+10. Apply the following themes:
+* __Global Theme:__ Sweet-Mars
+* __Plasma Style:__ ROUNDED
+* __Application Style:__ Breeze (preference)
+* __Window Decorations:__ Sweet Mars-transparent (preference)
