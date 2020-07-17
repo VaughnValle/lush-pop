@@ -153,6 +153,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 		 sudo nano /etc/lightdm/lightdm.conf.d/lightdm.conf
     - Change the value of __greeter-session__ to ```lightdm-webkit2-greeter```
 42. Edit the lightdm webkit2 configuration file:
+		 
 		 sudo nano /etc/lightdm/lightdm-webkit2-greeter.conf
     - Change the value of __webkit_theme__ to ```lightdm-webkit2-theme-glorious```
 43. Reboot your system and enjoy!
