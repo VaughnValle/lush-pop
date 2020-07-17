@@ -107,7 +107,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 27. Install MNML Conky:
 
 		 cd $DIR/lush-pop/mnml_conky && ./install
-    - __NOTE__: Leave your answers blank when prompted during installation by hitting __Enter__
+    __NOTE__: Leave your answers blank when prompted during installation by hitting __Enter__
 28. Copy conky configuration file to your home directory:
 
 		 cp .conkyrc ~/.conkyrc
