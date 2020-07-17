@@ -75,14 +75,14 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 14. Install latte-dock with the installation script:
 
 		 cd $DIR/lush-pop/latte-dock && sh install.sh
-15. Launch latte-dock either in __Krunner__ (alt+space) or in the terminal with:
+15. Launch latte-dock either with __Krunner__ (alt+space) or in the terminal with:
 
 		 latte-dock
-16. Switch to __Extended__ layout
-    - Right click the dock, 
+16. Switch to Latte Dock layout to __Extended__
+    - Right click the dock 
     - Click __Configure Latte__
     - Switching the layout in the __Layouts__ section
-17. Adjust the latte-dock settings to your liking
+17. Adjust the Latte Dock settings to your liking
     - Right click the dock
     - Click __Edit Panel__
     - Toggle the __Advanced__ option
@@ -102,7 +102,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
     - Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
 25. Create a free account in [OpenWeatherMap](https://openweathermap.org/) 
     - Get your free API key in the __API__ section of the website
-    - Search the City ID of your location
+    - Search the City ID of your location [here](http://bulk.openweathermap.org/sample/city.list.json.gz)
 26. Install the Poiret One font in ```$DIR/lush-pop/Poiret```
 27. Install MNML Conky:
 
