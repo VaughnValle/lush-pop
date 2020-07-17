@@ -114,8 +114,8 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 29. Edit the conky configuration file:
 
 		 nano ~/.conkyrc
-30.     - Place your __API key__ in the ```template6``` variable
-        - Place your __City ID__ in the ```template7``` variable
+    - Place your __API key__ in the ```template6``` variable
+    - Place your __City ID__ in the ```template7``` variable
 31. Run conky in the terminal:
 
 		 conky
