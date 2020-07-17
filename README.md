@@ -70,3 +70,25 @@ Depends on:
 13. Install latte-dock extra dependencies (more info [here](https://github.com/KDE/latte-dock/blob/master/INSTALLATION.md_)):
 
 		 sudo apt install cmake extra-cmake-modules qtdeclarative5-dev libqt5x11extras5-dev libkf5iconthemes-dev libkf5plasma-dev libkf5windowsystem-dev libkf5declarative-dev libkf5xmlgui-dev libkf5activities-dev build-essential libxcb-util-dev libkf5wayland-dev git gettext libkf5archive-dev libkf5notifications-dev libxcb-util0-dev libsm-dev libkf5crash-dev libkf5newstuff-dev
+14. Install latte-dock with the installation script:
+
+		 cd $DIR/lush-pop/latte-dock && sh install.sh
+15. Launch latte-dock either in __Krunner__ (alt+space) or in the terminal with:
+
+		 latte-dock
+16. Switch to __Extended__ layout by right clicking the dock, clicking __Configure Latte__, and switching the layout in the __Layouts__ section
+17. Adjust the settings to your liking by right clicking the dock, clicking __Edit Panel__, and toggle the __Advanced__ option
+18. Remove/Add your preferred widgets, widgets in the video includes:
+* __Global Menu__
+* __Application Title__
+* __Better Inline Clock__
+19. Configure __System Tray__ and set all menus to __Always hidden__
+20. Arrange widgets to your liking
+* You can enable colors in your widget by clicking the __teardrop icon__ 
+21. Configure the __Better Inlince Clock__ widget
+22. Adjust the padding of the dock in the __Effects__ section of the latte-dock settings
+23. Configure __Application Launcher__ icon
+* Sample icon is in ```$DIR/lush-pop/``` as __icon.png__
+24. Configure Kvantum Manager and set the theme
+* Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
+
