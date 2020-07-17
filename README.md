@@ -19,8 +19,15 @@ Depends on:
 * __[Poiret One](https://fonts.google.com/specimen/Poiret+One)__ (fonts)
 
 ### Latte-dock
-Depends on (full list [here](https://github.com/KDE/latte-dock#requirements):
+Depends on (full list [here](https://github.com/KDE/latte-dock#requirements)):
 * __Plasma__ ```>= 5.15.```
 * __Qt__ ```>= 5.12```
 
+### LightDM
+Depends on:
+* __lightdm-webkit2-greeter__
+* __[Glorious Lightdm webkit2 theme](https://github.com/manilarome/lightdm-webkit2-theme-glorious)__
 
+## Installation Steps (Ubuntu/Pop! OS 20.04)
+1. Update repositories with 
+       sudo apt update
