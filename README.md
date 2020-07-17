@@ -23,12 +23,33 @@ Depends on (full list [here](https://github.com/KDE/latte-dock#requirements)):
 * __Plasma__ ```>= 5.15.```
 * __Qt__ ```>= 5.12```
 
-### LightDM
+### Lightdm
 Depends on:
 * __lightdm-webkit2-greeter__
 * __[Glorious Lightdm webkit2 theme](https://github.com/manilarome/lightdm-webkit2-theme-glorious)__
 
-## Installation Steps (Ubuntu/Pop! OS 20.04)
+## Installation Steps (Ubuntu/Pop! OS 20.04) TODO
 1. Update repositories with 
 
 		 sudo apt update
+2. Upgrade system with 
+
+		 sudo apt upgrade
+3. Install KDE Plasma (desktop only package):
+
+		 sudo apt install kde-plasma-desktop
+4. Install Lightdm:
+
+		 sudo apt install lightdm
+5. Install Kvantum:
+
+		 sudo apt install qt5-style-kvantum qt5-style-kvantum-themes
+6. Install Conky and dependencies:
+
+		 sudo apt install conky-all curl jq gawk
+7. Install latte-dock pre-requisites:
+
+		 sudo apt install libxcb-randr0-dev libx11-xcb-dev
+8. Shutdown system:
+
+		 sudo shutdown -h now
