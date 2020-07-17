@@ -29,6 +29,8 @@ Depends on:
 * __[Glorious Lightdm webkit2 theme](https://github.com/manilarome/lightdm-webkit2-theme-glorious)__
 
 ## Installation Steps (Ubuntu/Pop! OS 20.04) TODO
+__NOTE:__ Replace ```$DIR``` with the directory you cloned this repo into 
+
 1. Update repositories with 
 
 		 sudo apt update
@@ -91,7 +93,7 @@ Depends on:
 * Sample icon is in ```$DIR/lush-pop/``` as __icon.png__
 24. Configure Kvantum Manager and set the theme
 * Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
-25. Create a free account in[OpenWeatherMap](https://openweathermap.org/) 
+25. Create a free account in [OpenWeatherMap](https://openweathermap.org/) 
 * Get your free API key in the __API__ section of the website
 * Search the City ID of your location
 26. Install the Poiret One font in ```$DIR/lush-pop/Poiret```
@@ -107,3 +109,21 @@ Depends on:
 		 nano ~/.conkyrc
 31. * Place your __API key__ in the ```template6``` variable
     * Place your __City ID__ in the ```template7``` variable
+32. Run conky in the terminal:
+
+		 conky
+33. Install Kwin Scripts:
+* __Krohnkite__ for window-tiling
+* __Latte Window Colors__ for better dynamic latte-dock colors
+34. Remove top titlebar of terminal windows in __Window Rules__ setting
+35. Enable Configuration settings for Krohnkite:
+
+		 mkdir -p ~/.local/share/kservices5/
+		 ln -s ~/.local/share/kwin/scripts/krohnkite/metadata.desktop ~/.local/share/kservices5/krohnkite.desktop
+36. Configure Krohnkite in __Kwin Scripts__ and __Global Shortcuts__ _Kwin_ section
+37. Change your terminal theme to your liking
+* Theme used in the video is __Sweet Mars__, included in the __Sweet Konsole Theme__
+38. Install our custom splash screen with 
+
+		 cd $DIR/lush-pop/ && cp -r Lush ~/.local/share/plasma/look-and-feel/
+39. Preview and apply the installed custom splash screen in __Splash Screen__ settings40. TODO 
