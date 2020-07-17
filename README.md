@@ -123,7 +123,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 36. Configure Krohnkite in __Kwin Scripts__ and __Global Shortcuts__ _Kwin_ section
 37. Change your terminal theme to your liking
 * Theme used in the video is __Sweet Mars__, included in the __Sweet Konsole Theme__
-38. Install our custom splash screen with 
+38. Install the custom splash screen with 
 
 		 cd $DIR/lush-pop/ && cp -r Lush ~/.local/share/plasma/look-and-feel/
 39. Preview and apply the installed custom splash screen in __Splash Screen__ settings
@@ -134,7 +134,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 42. Edit the lightdm configuration file:
 
 		 sudo nano /etc/lightdm/lightdm.conf.d/lightdm.conf
-43. Change the value of __greeter-session__ to ``lightdm-webkit2-greeter```
+43. Change the value of __greeter-session__ to ```lightdm-webkit2-greeter```
 44. Edit the lightdm webkit2 configuration file:
 		 sudo nano /etc/lightdm/lightdm-webkit2-greeter.conf
 45. Change the value of __webkit_theme__ to ```lightdm-webkit2-theme-glorious```
