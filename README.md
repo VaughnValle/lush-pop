@@ -2,9 +2,9 @@
 A clean and green theme for Pop! OS
 
 ## Preview
-Love the content? Subscribe to my Youtube Channel: https://tinyurl.com/ydx35uwd 
+Love the content? Consider Subscribing: https://tinyurl.com/ydx35uwd 
 
-[![Lush - A Nature Themed Linux Setup](https://github.com/VaughnValle/demo/blob/master/LUSH.png)](http://www.youtube.com/watch?v=URae0PTtJXE "")
+[![Lush - A Nature Themed Linux Setup](https://github.com/VaughnValle/demo/blob/master/fus.png)](http://www.youtube.com/watch?v=dQ1yh-UtfuE)
 
 ## Dependencies
 ### MNML_Conky
