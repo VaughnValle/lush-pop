@@ -102,7 +102,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
     - Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
 25. Create a free account in [OpenWeatherMap](https://openweathermap.org/) 
     - Get your free API key in the __API__ section of the website
-    - Search the City ID of your location [here](http://bulk.openweathermap.org/sample/city.list.json.gz)
+    - Search the __City ID__ of your location [here](http://bulk.openweathermap.org/sample/city.list.json.gz)
 26. Install the Poiret One font in ```$DIR/lush-pop/Poiret```
 27. Install MNML Conky:
 
