@@ -28,7 +28,7 @@ Depends on:
 * __lightdm-webkit2-greeter__
 * __[Glorious Lightdm webkit2 theme](https://github.com/manilarome/lightdm-webkit2-theme-glorious)__
 
-## Installation Steps (Ubuntu/Pop! OS 20.04) TODO
+## Installation Steps (Ubuntu/Pop! OS 20.04)
 __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to 
 
 1. Update repositories with 
