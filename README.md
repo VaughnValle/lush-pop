@@ -29,7 +29,7 @@ Depends on:
 * __[Glorious Lightdm webkit2 theme](https://github.com/manilarome/lightdm-webkit2-theme-glorious)__
 
 ## Installation Steps (Ubuntu/Pop! OS 20.04) TODO
-__NOTE:__ Replace ```$DIR``` with the directory you cloned this repo into 
+__NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to 
 
 1. Update repositories with 
 
@@ -127,5 +127,15 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo into
 
 		 cd $DIR/lush-pop/ && cp -r Lush ~/.local/share/plasma/look-and-feel/
 39. Preview and apply the installed custom splash screen in __Splash Screen__ settings
-40. TODO 
+40. Install lightdm-webkit2-greeter by installing the __lightdm-webkit2-greeter_2.2.5-1%2B15.31_amd64.deb__ file
+41. Install the __Glorious__ Webkit2 theme:
 
+		 sudo cp -r $DIR/lush-pop/lightdm-webkit2-theme-glorious/ /usr/share/lightdm-webkit/themes/
+42. Edit the lightdm configuration file:
+
+		 sudo nano /etc/lightdm/lightdm.conf.d/lightdm.conf
+43. Change the value of __greeter-session__ to ``lightdm-webkit2-greeter```
+44. Edit the lightdm webkit2 configuration file:
+		 sudo nano /etc/lightdm/lightdm-webkit2-greeter.conf
+45. Change the value of __webkit_theme__ to ```lightdm-webkit2-theme-glorious```
+46. Reboot your system and enjoy!
