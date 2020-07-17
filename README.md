@@ -81,21 +81,21 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 16. Switch to __Extended__ layout by right clicking the dock, clicking __Configure Latte__, and switching the layout in the __Layouts__ section
 17. Adjust the settings to your liking by right clicking the dock, clicking __Edit Panel__, and toggle the __Advanced__ option
 18. Remove/Add your preferred widgets, widgets in the video includes:
-- __Global Menu__
-- __Application Title__
-- __Better Inline Clock__
+    - __Global Menu__
+    - __Application Title__
+    - __Better Inline Clock__
 19. Configure __System Tray__ and set all menus to __Always hidden__
 20. Arrange widgets to your liking
-- You can enable colors in your widget by clicking the __teardrop icon__ 
+    - You can enable colors in your widget by clicking the __teardrop icon__ 
 21. Configure the __Better Inlince Clock__ widget
 22. Adjust the padding of the dock in the __Effects__ section of the latte-dock settings
 23. Configure __Application Launcher__ icon
-- Sample icon is in ```$DIR/lush-pop/``` as __icon.png__
+    - Sample icon is in ```$DIR/lush-pop/``` as __icon.png__
 24. Configure Kvantum Manager and set the theme
-- Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
+    - Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
 25. Create a free account in [OpenWeatherMap](https://openweathermap.org/) 
-- Get your free API key in the __API__ section of the website
-- Search the City ID of your location
+    - Get your free API key in the __API__ section of the website
+    - Search the City ID of your location
 26. Install the Poiret One font in ```$DIR/lush-pop/Poiret```
 27. Install MNML Conky:
 
@@ -107,14 +107,14 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 30. Edit the conky configuration file:
 
 		 nano ~/.conkyrc
-31. - Place your __API key__ in the ```template6``` variable
-    - Place your __City ID__ in the ```template7``` variable
+31.     - Place your __API key__ in the ```template6``` variable
+        - Place your __City ID__ in the ```template7``` variable
 32. Run conky in the terminal:
 
 		 conky
 33. Install Kwin Scripts:
-- __Krohnkite__ for window-tiling
-- __Latte Window Colors__ for better dynamic latte-dock colors
+    - __Krohnkite__ for window-tiling
+    - __Latte Window Colors__ for better dynamic latte-dock colors
 34. Remove top titlebar of terminal windows in __Window Rules__ setting
 35. Enable Configuration settings for Krohnkite:
 
@@ -122,7 +122,7 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo to
 		 ln -s ~/.local/share/kwin/scripts/krohnkite/metadata.desktop ~/.local/share/kservices5/krohnkite.desktop
 36. Configure Krohnkite in __Kwin Scripts__ and __Global Shortcuts__ _Kwin_ section
 37. Change your terminal theme to your liking
-- Theme used in the video is __Sweet Mars__, included in the __Sweet Konsole Theme__
+    - Theme used in the video is __Sweet Mars__, included in the __Sweet Konsole Theme__
 38. Install the custom splash screen with 
 
 		 cd $DIR/lush-pop/ && cp -r Lush ~/.local/share/plasma/look-and-feel/
