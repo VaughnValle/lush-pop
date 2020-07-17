@@ -91,4 +91,19 @@ Depends on:
 * Sample icon is in ```$DIR/lush-pop/``` as __icon.png__
 24. Configure Kvantum Manager and set the theme
 * Sweet Mars Kvantum theme folder is in ```$DIR/lush-pop/Sweet-Mars-transparent-toolbar```
+25. Create a free account in[OpenWeatherMap](https://openweathermap.org/) 
+* Get your free API key in the __API__ section of the website
+* Search the City ID of your location
+26. Install the Poiret One font in ```$DIR/lush-pop/Poiret```
+27. Install MNML Conky:
 
+		 cd $DIR/lush-pop/mnml_conky && ./install
+28. Leave answer blank for prompts
+29. Copy conky configuration file to your home directory:
+
+		 cp .conkyrc ~/.conkyrc
+30. Edit the conky configuration file:
+
+		 nano ~/.conkyrc
+31. * Place your __API key__ in the ```template6``` variable
+    * Place your __City ID__ in the ```template7``` variable
