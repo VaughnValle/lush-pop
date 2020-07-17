@@ -126,4 +126,6 @@ __NOTE:__ Replace ```$DIR``` with the directory you cloned this repo into
 38. Install our custom splash screen with 
 
 		 cd $DIR/lush-pop/ && cp -r Lush ~/.local/share/plasma/look-and-feel/
-39. Preview and apply the installed custom splash screen in __Splash Screen__ settings40. TODO 
+39. Preview and apply the installed custom splash screen in __Splash Screen__ settings
+40. TODO 
+
