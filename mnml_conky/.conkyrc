@@ -89,8 +89,6 @@ template8="metric",
 -------------------------------------
 template9="",
 
-lua_load="/home/vaughnvalle/scripts/draw_bg.lua",
-lua_draw_hook_pre="draw_bg"
 }
 
 
